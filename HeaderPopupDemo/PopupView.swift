@@ -25,8 +25,8 @@ class PopupView: UIView {
     }
     func layoutWhenButtonClick(_ button: UIButton){
         isOpen = true
-        neckView.frame = CGRect(x: button.frame.midX, y: 0, width: button.frame.width, height: 20)
-        selectedButton = button as! Button
+        neckView.frame = CGRect(x: button.frame.minX + 4, y: 0, width: button.frame.width, height: 20)
+        selectedButton = button as? Button
     }
     @IBAction func clickCoverButton(_ sender: Any) {
         isOpen = false

@@ -1,12 +1,4 @@
 //
-//  UIView+Extension.swift
-//  HeaderPopupDemo
-//
-//  Created by admin on 5/13/19.
-//  Copyright © 2019 admin. All rights reserved.
-//
-
-//
 //  CustomRadiusAndBoder.swift
 //  BookCancleDemo
 //
@@ -18,6 +10,35 @@ import Foundation
 
 import UIKit
 
+protocol ViewProtocol {
+    var cornerRadius: CGFloat {get set}
+    var topBorder: Bool {get set}
+    var leftBorder: Bool {get set}
+    var rightBorder: Bool {get set}
+    var bottomBorder: Bool {get set}
+    var borderColor: UIColor? {get set}
+    var lineWeight: CGFloat {get set}
+    func rounderCorner(radius: CGFloat)
+    func addBorder(layerNameKey: LayerNameKey, color: UIColor?, lineWeight: CGFloat)
+}
+
+extension ViewProtocol {
+    func doingAfterLayoutSubview() {
+        rounderCorner(radius: cornerRadius)
+        if topBorder {
+            addBorder(layerNameKey: LayerNameKey.topBorder, color: borderColor, lineWeight: lineWeight)
+        }
+        if leftBorder {
+            addBorder(layerNameKey: LayerNameKey.leftBorder, color: borderColor, lineWeight: lineWeight)
+        }
+        if rightBorder {
+            addBorder(layerNameKey: LayerNameKey.rightBorder, color: borderColor, lineWeight: lineWeight)
+        }
+        if bottomBorder {
+            addBorder(layerNameKey: LayerNameKey.bottomBorder, color: borderColor, lineWeight: lineWeight)
+        }
+    }
+}
 
 @IBDesignable
 class ImageView: UIImageView {
@@ -29,28 +50,58 @@ class ImageView: UIImageView {
 }
 
 @IBDesignable
-class View: UIView {
+class View: UIView, ViewProtocol {
     @IBInspectable var cornerRadius: CGFloat = 0
+    @IBInspectable var lineWeight: CGFloat = 1
+    @IBInspectable var topBorder: Bool = false
+    @IBInspectable var leftBorder: Bool = false
+    @IBInspectable var rightBorder: Bool = false
+    @IBInspectable var bottomBorder: Bool = false
     override func layoutSubviews() {
         super.layoutSubviews()
-        rounderCorner(radius: cornerRadius)
+        doingAfterLayoutSubview()
     }
 }
 
 //@IBDesignable
-//class Button: UIButton {
+//class Button: UIButton, ViewProtocol {
 //    @IBInspectable var cornerRadius: CGFloat = 0
+//    @IBInspectable var lineWeight: CGFloat = 1
+//    @IBInspectable var topBorder: Bool = false
+//    @IBInspectable var leftBorder: Bool = false
+//    @IBInspectable var rightBorder: Bool = false
+//    @IBInspectable var bottomBorder: Bool = false
 //    override func layoutSubviews() {
 //        super.layoutSubviews()
-//        rounderCorner(radius: cornerRadius)
+//        doingAfterLayoutSubview()
+//
 //    }
 //}
 @IBDesignable
-class Label: UILabel {
+class Label: UILabel, ViewProtocol {
     @IBInspectable var cornerRadius: CGFloat = 0
+    @IBInspectable var lineWeight: CGFloat = 1
+    @IBInspectable var topBorder: Bool = false
+    @IBInspectable var leftBorder: Bool = false
+    @IBInspectable var rightBorder: Bool = false
+    @IBInspectable var bottomBorder: Bool = false
     override func layoutSubviews() {
         super.layoutSubviews()
-        rounderCorner(radius: cornerRadius)
+        doingAfterLayoutSubview()
+    }
+}
+
+@IBDesignable
+class TextField: UITextField, ViewProtocol {
+    @IBInspectable var cornerRadius: CGFloat = 0
+    @IBInspectable var lineWeight: CGFloat = 1
+    @IBInspectable var topBorder: Bool = false
+    @IBInspectable var leftBorder: Bool = false
+    @IBInspectable var rightBorder: Bool = false
+    @IBInspectable var bottomBorder: Bool = false
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        doingAfterLayoutSubview()
     }
 }
 
@@ -73,6 +124,7 @@ extension UIView {
 extension UIView {
     static func loadNib<T: UIView>(_ viewType: T.Type) -> T {
         let className = String(describing: viewType)
+        
         return Bundle(for: viewType).loadNibNamed(className, owner: nil, options: nil)!.first as! T
     }
     
@@ -162,14 +214,14 @@ extension UIView {
 
 // MARK: - Animation
 extension UIView {
-    func animate(animations: @escaping (Bool) -> ()) {
+    func animate(animations: ((Bool) -> ())? = nil) {
         UIView.animate(withDuration: 0.2, animations: {
             self.layer.transform = CATransform3DMakeScale(1.25, 1.25, 1);
         }, completion: { (completed) in
             UIView.animate(withDuration: 0.2, animations: {
                 self.layer.transform = CATransform3DMakeScale(1, 1, 1);
             }, completion: { (completed) in
-                animations(completed)
+                animations?(completed)
             })
         })
         
@@ -191,14 +243,24 @@ extension UIView {
         let rotation = transform.rotated(by: angle)
         transform = rotation
     }
+    
+    func roundAndRound(duration: CFTimeInterval = 5.0) {
+        let rotateAnimation = CABasicAnimation(keyPath: "transform.rotation")
+        rotateAnimation.fromValue = 0.0
+        rotateAnimation.toValue = CGFloat(.pi * 2.0)
+        rotateAnimation.duration = duration
+        rotateAnimation.repeatCount = .greatestFiniteMagnitude
+        self.layer.add(rotateAnimation, forKey: nil)
+    }
+    
 //    func rotate(_ toValue: CGFloat, duration: CFTimeInterval = 0.2) {
 //        let animation = CABasicAnimation(keyPath: "transform.rotation")
-//        
+//
 //        animation.toValue = toValue
 //        animation.duration = duration
 //        animation.isRemovedOnCompletion = false
 //        animation.fillMode = CAMediaTimingFillMode.forwards
-//        
+//
 //        self.layer.add(animation, forKey: nil)
 //    }
 //    func fadeTransition(_ duration: CFTimeInterval) {
@@ -210,126 +272,93 @@ extension UIView {
 //        layer.add(animation, forKey: CATransitionType.fade.rawValue)
 //    }
 //    func shake() {
-//        backgroundColor = UIColor.orange.withAlphaComponent(0.2)
+//        backgroundColor = UIColor.orange
 //        let animation = CAKeyframeAnimation(keyPath: "transform.translation.x")
 //        animation.timingFunction = CAMediaTimingFunction(name: CAMediaTimingFunctionName.linear)
-//        animation.duration = 1.2
+//        animation.duration = 0.6
 //        animation.values = [-20.0, 20.0, -20.0, 20.0, -10.0, 10.0, -5.0, 5.0, 0.0 ]
 //        layer.add(animation, forKey: "shake")
 //    }
+    
+    func resetAfterShake() {
+        backgroundColor = UIColor.white
+    }
 }
 
 // MARK: - Border 4 edges
-fileprivate class Keys {
-    static let TOP_BORDER = "top-border"
-    static let BOTTOM_BORDER = "bottom-border"
-    static let LEFT_BORDER = "left-border"
-    static let RIGHT_BORDER = "right-boder"
+
+enum LayerNameKey : String {
+    case topBorder = "top-border"
+    case bottomBorder = "bottom-border"
+    case leftBorder = "left-border"
+    case rightBorder = "right-boder"
+    
+    func getRect(with layer: CALayer, lineWeight: CGFloat) -> CGRect {
+        switch self {
+        case .topBorder:
+            return  CGRect(x: 0, y: 0, width: layer.frame.width, height: lineWeight)
+        case .bottomBorder:
+            return CGRect(x: 0, y: layer.frame.height - lineWeight, width: layer.frame.width, height: lineWeight)
+        case .leftBorder:
+            return CGRect(x: 0, y: 0, width: lineWeight, height: layer.frame.height)
+        case .rightBorder:
+            return CGRect(x: layer.frame.width - lineWeight, y: 0, width: lineWeight, height: layer.frame.height)
+        }
+    }
 }
+
+
+extension UIView {
+    func addBorder(layerNameKey: LayerNameKey, color: UIColor? = nil, lineWeight: CGFloat = 1) {
+        // add top border
+        let border = UIView(frame: layerNameKey.getRect(with: layer, lineWeight: lineWeight))
+        border.layer.name = layerNameKey.rawValue
+        border.backgroundColor = color ?? UIColor.groupTableViewBackground
+        layer.setValue(border, forKey: layerNameKey.rawValue)
+        addSubview(border)
+    }
+    
+    func removeBorderLayer(layerNameKey: LayerNameKey) {
+        if let border = layer.value(forKey: layerNameKey.rawValue) as? UIView {
+            border.removeFromSuperview()
+            layer.setValue(nil, forKey: layerNameKey.rawValue)
+        }
+    }
+}
+
+// MARK: - Constraint
 
 extension UIView {
     
-    @IBInspectable var topBorder: Bool {
-        get {
-            return layer.value(forKey: Keys.TOP_BORDER) != nil
+    func fill(left: CGFloat? = 0, top: CGFloat? = 0, right: CGFloat? = 0, bottom: CGFloat? = 0) {
+        guard let superview = superview else {
+            print("\(self.description): there is no superView")
+            return
         }
-        set {
-            addTopBorder(isActive: newValue)
+        self.translatesAutoresizingMaskIntoConstraints = false
+        if let left = left {
+            self.leadingAnchor.constraint(equalTo: superview.leadingAnchor, constant: left).isActive = true
         }
-    }
-    
-    func addTopBorder(isActive: Bool, height: CGFloat = 1) {
-        if isActive {
-            // add top border
-            let border = UIView(frame: CGRect(x: 0, y: 0, width: layer.frame.width, height: height))
-            border.layer.name = Keys.TOP_BORDER
-            border.backgroundColor = borderColor
-            layer.setValue(border, forKey: Keys.TOP_BORDER)
-            addSubview(border)
+        if let top = top  {
+            self.topAnchor.constraint(equalTo: superview.topAnchor, constant: top).isActive = true
         }
-        else {
-            if let border = layer.value(forKey: Keys.TOP_BORDER) as? UIView {
-                border.removeFromSuperview()
-                layer.setValue(nil, forKey: Keys.TOP_BORDER)
-            }
+        
+        if let right = right {
+            self.trailingAnchor.constraint(equalTo: superview.trailingAnchor, constant: -right).isActive = true
+        }
+        
+        if let bottom = bottom {
+            self.bottomAnchor.constraint(equalTo: superview.bottomAnchor, constant: -bottom).isActive = true
         }
     }
     
-    @IBInspectable var bottomBorder: Bool {
-        get {
-            return layer.value(forKey: Keys.BOTTOM_BORDER) != nil
+    func alignCenter(deltaPoint: CGPoint = .zero) {
+        guard let superview = superview else {
+            print("\(self.description): there is no superView")
+            return
         }
-        set {
-            addBottomBorder(isActive: newValue)
-        }
-    }
-    
-    func addBottomBorder(isActive: Bool, height: CGFloat = 1) {
-        if isActive {
-            // add top border
-            let border = UIView(frame: CGRect(x: 0, y: layer.frame.height - height, width: layer.frame.width, height: height))
-            border.layer.name = Keys.BOTTOM_BORDER
-            border.backgroundColor = borderColor
-            layer.setValue(border, forKey: Keys.BOTTOM_BORDER)
-            addSubview(border)
-        }
-        else {
-            if let border = layer.value(forKey: Keys.BOTTOM_BORDER) as? UIView {
-                border.removeFromSuperview()
-                layer.setValue(nil, forKey: Keys.BOTTOM_BORDER)
-            }
-        }
-    }
-    @IBInspectable var leftBorder: Bool {
-        get {
-            return layer.value(forKey: Keys.LEFT_BORDER) != nil
-        }
-        set {
-            addLeftBorder(isActive: newValue)
-        }
-    }
-    
-    func addLeftBorder(isActive: Bool, width: CGFloat = 1) {
-        if isActive {
-            // add top border
-            let border = UIView(frame: CGRect(x: 0, y: 0, width: width, height: layer.frame.height))
-            border.layer.name = Keys.LEFT_BORDER
-            border.backgroundColor = borderColor
-            layer.setValue(border, forKey: Keys.LEFT_BORDER)
-            addSubview(border)
-        }
-        else {
-            if let border = layer.value(forKey: Keys.LEFT_BORDER) as? UIView {
-                border.removeFromSuperview()
-                layer.setValue(nil, forKey: Keys.LEFT_BORDER)
-            }
-        }
-    }
-    @IBInspectable var rightBorder: Bool {
-        get {
-            return layer.value(forKey: Keys.RIGHT_BORDER) != nil
-        }
-        set {
-            addRightBorder(isActive: newValue)
-        }
-    }
-    
-    func addRightBorder(isActive: Bool, width: CGFloat = 1) {
-        if isActive {
-            // add top border
-            let border = UIView(frame: CGRect(x: layer.frame.width - width, y: 0, width: width, height: layer.frame.height))
-            border.layer.name = Keys.RIGHT_BORDER
-            border.backgroundColor = borderColor
-            layer.setValue(border, forKey: Keys.RIGHT_BORDER)
-            addSubview(border)
-        }
-        else {
-            if let border = layer.value(forKey: Keys.RIGHT_BORDER) as? UIView {
-                border.removeFromSuperview()
-                layer.setValue(nil, forKey: Keys.RIGHT_BORDER)
-            }
-        }
+        self.translatesAutoresizingMaskIntoConstraints = false
+        self.centerXAnchor.constraint(equalTo: superview.centerXAnchor, constant: deltaPoint.x).isActive = true
+        self.centerYAnchor.constraint(equalTo: superview.centerYAnchor, constant: deltaPoint.y).isActive = true
     }
 }
-
-

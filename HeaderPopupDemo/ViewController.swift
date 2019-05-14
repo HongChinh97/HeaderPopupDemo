@@ -34,7 +34,7 @@ class ViewController: UIViewController {
     private func addPopupView() {
         view.addSubview(popupView)
         //day popview xuong duoi button
-        //        popupView.fill(left: 0,right: nil, top: 0, botton: -100)
+        popupView.fill(left: 0,top: nil, right: 0, bottom: -100)
         popupView.topAnchor.constraint(equalTo: headerView.bottomAnchor).isActive = true
     }
     

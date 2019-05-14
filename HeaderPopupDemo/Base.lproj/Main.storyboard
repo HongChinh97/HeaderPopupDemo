@@ -26,24 +26,42 @@
                                         <subviews>
                                             <button opaque="NO" contentMode="scaleToFill" selected="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vQO-At-vgD" customClass="Button" customModule="HeaderPopupDemo" customModuleProvider="target">
                                                 <rect key="frame" x="0.0" y="0.0" width="119.5" height="56"/>
-                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                <state key="normal" title="Button"/>
+                                                <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <color key="tintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <state key="normal" title="Button">
+                                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                </state>
+                                                <state key="selected">
+                                                    <color key="titleColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                </state>
                                                 <connections>
                                                     <action selector="clickHeaderButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="7dS-lU-AKS"/>
                                                 </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" selected="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZkZ-C1-Weu" customClass="Button" customModule="HeaderPopupDemo" customModuleProvider="target">
                                                 <rect key="frame" x="123.5" y="0.0" width="120" height="56"/>
-                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                <state key="normal" title="Button"/>
+                                                <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <color key="tintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <state key="normal" title="Button">
+                                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                </state>
+                                                <state key="selected">
+                                                    <color key="titleColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                </state>
                                                 <connections>
                                                     <action selector="clickHeaderButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="WJg-B6-r4m"/>
                                                 </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" selected="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XZf-cr-ANB" customClass="Button" customModule="HeaderPopupDemo" customModuleProvider="target">
                                                 <rect key="frame" x="247.5" y="0.0" width="119.5" height="56"/>
-                                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                <state key="normal" title="Button"/>
+                                                <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <color key="tintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                <state key="normal" title="Button">
+                                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                </state>
+                                                <state key="selected">
+                                                    <color key="titleColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                </state>
                                                 <connections>
                                                     <action selector="clickHeaderButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="zz9-z8-6o2"/>
                                                 </connections>
@@ -74,15 +92,17 @@
                         <outlet property="headerView" destination="Eg0-VH-VBw" id="HcN-7B-Gaa"/>
                         <outlet property="popupView" destination="fFB-rP-GkE" id="i9W-BQ-VjK"/>
                         <outletCollection property="headerButtons" destination="vQO-At-vgD" collectionClass="NSMutableArray" id="JnS-B8-eXd"/>
+                        <outletCollection property="headerButtons" destination="ZkZ-C1-Weu" collectionClass="NSMutableArray" id="hbC-u9-xmU"/>
+                        <outletCollection property="headerButtons" destination="XZf-cr-ANB" collectionClass="NSMutableArray" id="cR3-on-3ZH"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
                 <view contentMode="scaleToFill" id="fFB-rP-GkE" customClass="PopupView" customModule="HeaderPopupDemo" customModuleProvider="target">
-                    <rect key="frame" x="0.0" y="0.0" width="393" height="224"/>
+                    <rect key="frame" x="0.0" y="0.0" width="379" height="273"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <subviews>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="a0G-93-AUM">
-                            <rect key="frame" x="0.0" y="0.0" width="393" height="224"/>
+                            <rect key="frame" x="0.0" y="0.0" width="379" height="273"/>
                             <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <state key="normal" title="Button"/>
                             <connections>
@@ -90,11 +110,16 @@
                             </connections>
                         </button>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="krV-FR-5At">
-                            <rect key="frame" x="4" y="4" width="385" height="150"/>
+                            <rect key="frame" x="4" y="10" width="371" height="150"/>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="150" id="8Ua-LO-8Qj"/>
                             </constraints>
+                        </view>
+                        <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Dg5-zb-SiP">
+                            <rect key="frame" x="4" y="162" width="212" height="29"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         </view>
                     </subviews>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -104,13 +129,13 @@
                         <constraint firstItem="a0G-93-AUM" firstAttribute="top" secondItem="fwv-KU-2FF" secondAttribute="top" id="LD3-ee-tN0"/>
                         <constraint firstItem="fwv-KU-2FF" firstAttribute="bottom" secondItem="a0G-93-AUM" secondAttribute="bottom" id="ND8-I4-ddW"/>
                         <constraint firstItem="krV-FR-5At" firstAttribute="leading" secondItem="fwv-KU-2FF" secondAttribute="leading" constant="4" id="Pfa-tP-Nq8"/>
-                        <constraint firstItem="krV-FR-5At" firstAttribute="top" secondItem="fwv-KU-2FF" secondAttribute="top" constant="4" id="UUp-o1-emN"/>
+                        <constraint firstItem="krV-FR-5At" firstAttribute="top" secondItem="fwv-KU-2FF" secondAttribute="top" constant="10" id="UUp-o1-emN"/>
                         <constraint firstItem="fwv-KU-2FF" firstAttribute="trailing" secondItem="krV-FR-5At" secondAttribute="trailing" constant="4" id="gQs-MT-xNS"/>
                     </constraints>
                     <viewLayoutGuide key="safeArea" id="fwv-KU-2FF"/>
                     <connections>
                         <outlet property="coverButton" destination="a0G-93-AUM" id="HH8-b4-mPc"/>
-                        <outlet property="neckView" destination="krV-FR-5At" id="sEd-6q-1Dq"/>
+                        <outlet property="neckView" destination="Dg5-zb-SiP" id="KRg-kK-8jl"/>
                     </connections>
                 </view>
             </objects>
